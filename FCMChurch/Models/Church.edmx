@@ -1,0 +1,649 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="forchris_ChurchModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="150" />
+          <Property Name="Address2" Type="varchar" MaxLength="55" />
+          <Property Name="ZipCode" Type="int" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="ContactTypeID" />
+          </Key>
+          <Property Name="ContactTypeID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="45" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="EmailID" />
+          </Key>
+          <Property Name="EmailID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="150" />
+          <Property Name="ContactTypeID" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="45" />
+          <Property Name="LastName" Type="varchar" MaxLength="45" />
+          <Property Name="MemberTypeID" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberContact">
+          <Key>
+            <PropertyRef Name="MemberContactID" />
+          </Key>
+          <Property Name="MemberContactID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="uint" Nullable="false" />
+          <Property Name="EmailID" Type="uint" Nullable="false" />
+          <Property Name="PhoneID" Type="uint" Nullable="false" />
+          <Property Name="AddressID" Type="uint" Nullable="false" />
+          <Property Name="StateNameID" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MemberGiving">
+          <Key>
+            <PropertyRef Name="MemberGivingID" />
+          </Key>
+          <Property Name="MemberGivingID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MemberID" Type="uint" Nullable="false" />
+          <Property Name="Tithes" Type="int" />
+          <Property Name="Offering" Type="int" />
+          <Property Name="Date" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="MemberType">
+          <Key>
+            <PropertyRef Name="MemberTypeID" />
+          </Key>
+          <Property Name="MemberTypeID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="PhoneID" />
+          </Key>
+          <Property Name="PhoneID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AreaCode" Type="int" />
+          <Property Name="Number" Type="int" />
+          <Property Name="ContactTypeID" Type="uint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StateName">
+          <Key>
+            <PropertyRef Name="StateNameID" />
+          </Key>
+          <Property Name="StateNameID" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="55" />
+          <Property Name="StateAbbreviation" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <Association Name="Email_ContactTypeID">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Email" Type="Self.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ContactTypeID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ PhoneID">
+          <End Role="Phone" Type="Self.Phone" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phone">
+              <PropertyRef Name="PhoneID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="PhoneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AddressID">
+          <End Role="Address" Type="Self.Address" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailID">
+          <End Role="Email" Type="Self.Email" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Email">
+              <PropertyRef Name="EmailID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="EmailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberID">
+          <End Role="Member" Type="Self.Member" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StateID">
+          <End Role="StateName" Type="Self.StateName" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateName">
+              <PropertyRef Name="StateNameID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="StateNameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Member_MemberTypeID">
+          <End Role="MemberType" Type="Self.MemberType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberType">
+              <PropertyRef Name="MemberTypeID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="MemberTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberGiving_MemberID">
+          <End Role="Member" Type="Self.Member" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberGiving" Type="Self.MemberGiving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="MemberGiving">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Phone_ContactTypeID">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ContactTypeID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="forchris_ChurchModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="ContactType" EntityType="Self.ContactType" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="MemberContact" EntityType="Self.MemberContact" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="MemberGiving" EntityType="Self.MemberGiving" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="MemberType" EntityType="Self.MemberType" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="Phone" EntityType="Self.Phone" Schema="forchris_Church" store:Type="Tables" />
+          <EntitySet Name="StateName" EntityType="Self.StateName" Schema="forchris_Church" store:Type="Tables" />
+          <AssociationSet Name="Email_ContactTypeID" Association="Self.Email_ContactTypeID">
+            <End Role="ContactType" EntitySet="ContactType" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ PhoneID" Association="Self.FK_ PhoneID">
+            <End Role="Phone" EntitySet="Phone" />
+            <End Role="MemberContact" EntitySet="MemberContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddressID" Association="Self.FK_AddressID">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="MemberContact" EntitySet="MemberContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailID" Association="Self.FK_EmailID">
+            <End Role="Email" EntitySet="Email" />
+            <End Role="MemberContact" EntitySet="MemberContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberID" Association="Self.FK_MemberID">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MemberContact" EntitySet="MemberContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StateID" Association="Self.FK_StateID">
+            <End Role="StateName" EntitySet="StateName" />
+            <End Role="MemberContact" EntitySet="MemberContact" />
+          </AssociationSet>
+          <AssociationSet Name="Member_MemberTypeID" Association="Self.Member_MemberTypeID">
+            <End Role="MemberType" EntitySet="MemberType" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="MemberGiving_MemberID" Association="Self.MemberGiving_MemberID">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MemberGiving" EntitySet="MemberGiving" />
+          </AssociationSet>
+          <AssociationSet Name="Phone_ContactTypeID" Association="Self.Phone_ContactTypeID">
+            <End Role="ContactType" EntitySet="ContactType" />
+            <End Role="Phone" EntitySet="Phone" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="forchris_ChurchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressID" />
+          </Key>
+          <Property Name="AddressID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Address1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="Int32" />
+          <NavigationProperty Name="MemberContacts" Relationship="Self.FK_AddressID" FromRole="Address" ToRole="MemberContact" />
+        </EntityType>
+        <EntityType Name="ContactType">
+          <Key>
+            <PropertyRef Name="ContactTypeID" />
+          </Key>
+          <Property Name="ContactTypeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Emails" Relationship="Self.Email_ContactTypeID" FromRole="ContactType" ToRole="Email" />
+          <NavigationProperty Name="Phones" Relationship="Self.Phone_ContactTypeID" FromRole="ContactType" ToRole="Phone" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="EmailID" />
+          </Key>
+          <Property Name="EmailID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ContactTypeID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ContactType" Relationship="Self.Email_ContactTypeID" FromRole="Email" ToRole="ContactType" />
+          <NavigationProperty Name="MemberContacts" Relationship="Self.FK_EmailID" FromRole="Email" ToRole="MemberContact" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="MemberTypeID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="MemberContacts" Relationship="Self.FK_MemberID" FromRole="Member" ToRole="MemberContact" />
+          <NavigationProperty Name="MemberType" Relationship="Self.Member_MemberTypeID" FromRole="Member" ToRole="MemberType" />
+          <NavigationProperty Name="MemberGivings" Relationship="Self.MemberGiving_MemberID" FromRole="Member" ToRole="MemberGiving" />
+        </EntityType>
+        <EntityType Name="MemberContact">
+          <Key>
+            <PropertyRef Name="MemberContactID" />
+          </Key>
+          <Property Name="MemberContactID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int64" Nullable="false" />
+          <Property Name="EmailID" Type="Int64" Nullable="false" />
+          <Property Name="PhoneID" Type="Int64" Nullable="false" />
+          <Property Name="AddressID" Type="Int64" Nullable="false" />
+          <Property Name="StateNameID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_AddressID" FromRole="MemberContact" ToRole="Address" />
+          <NavigationProperty Name="Email" Relationship="Self.FK_EmailID" FromRole="MemberContact" ToRole="Email" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberID" FromRole="MemberContact" ToRole="Member" />
+          <NavigationProperty Name="Phone" Relationship="Self.FK__PhoneID" FromRole="MemberContact" ToRole="Phone" />
+          <NavigationProperty Name="StateName" Relationship="Self.FK_StateID" FromRole="MemberContact" ToRole="StateName" />
+        </EntityType>
+        <EntityType Name="MemberGiving">
+          <Key>
+            <PropertyRef Name="MemberGivingID" />
+          </Key>
+          <Property Name="MemberGivingID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MemberID" Type="Int64" Nullable="false" />
+          <Property Name="Tithes" Type="Int32" />
+          <Property Name="Offering" Type="Int32" />
+          <Property Name="Date" Type="DateTime" />
+          <NavigationProperty Name="Member" Relationship="Self.MemberGiving_MemberID" FromRole="MemberGiving" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="MemberType">
+          <Key>
+            <PropertyRef Name="MemberTypeID" />
+          </Key>
+          <Property Name="MemberTypeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Members" Relationship="Self.Member_MemberTypeID" FromRole="MemberType" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="PhoneID" />
+          </Key>
+          <Property Name="PhoneID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AreaCode" Type="Int32" />
+          <Property Name="Number" Type="Int32" />
+          <Property Name="ContactTypeID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ContactType" Relationship="Self.Phone_ContactTypeID" FromRole="Phone" ToRole="ContactType" />
+          <NavigationProperty Name="MemberContacts" Relationship="Self.FK__PhoneID" FromRole="Phone" ToRole="MemberContact" />
+        </EntityType>
+        <EntityType Name="StateName">
+          <Key>
+            <PropertyRef Name="StateNameID" />
+          </Key>
+          <Property Name="StateNameID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="State" Type="String" MaxLength="55" FixedLength="false" Unicode="false" />
+          <Property Name="StateAbbreviation" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MemberContacts" Relationship="Self.FK_StateID" FromRole="StateName" ToRole="MemberContact" />
+        </EntityType>
+        <Association Name="FK_AddressID">
+          <End Role="Address" Type="Self.Address" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="AddressID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Email_ContactTypeID">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Email" Type="Self.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ContactTypeID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Phone_ContactTypeID">
+          <End Role="ContactType" Type="Self.ContactType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Phone" Type="Self.Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactType">
+              <PropertyRef Name="ContactTypeID" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="ContactTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmailID">
+          <End Role="Email" Type="Self.Email" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Email">
+              <PropertyRef Name="EmailID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="EmailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberID">
+          <End Role="Member" Type="Self.Member" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Member_MemberTypeID">
+          <End Role="MemberType" Type="Self.MemberType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberType">
+              <PropertyRef Name="MemberTypeID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="MemberTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberGiving_MemberID">
+          <End Role="Member" Type="Self.Member" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberGiving" Type="Self.MemberGiving" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberID" />
+            </Principal>
+            <Dependent Role="MemberGiving">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhoneID">
+          <End Role="Phone" Type="Self.Phone" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Phone">
+              <PropertyRef Name="PhoneID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="PhoneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StateID">
+          <End Role="StateName" Type="Self.StateName" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MemberContact" Type="Self.MemberContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StateName">
+              <PropertyRef Name="StateNameID" />
+            </Principal>
+            <Dependent Role="MemberContact">
+              <PropertyRef Name="StateNameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="forchris_ChurchEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="ContactTypes" EntityType="Self.ContactType" />
+          <EntitySet Name="Emails" EntityType="Self.Email" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="MemberContacts" EntityType="Self.MemberContact" />
+          <EntitySet Name="MemberGivings" EntityType="Self.MemberGiving" />
+          <EntitySet Name="MemberTypes" EntityType="Self.MemberType" />
+          <EntitySet Name="Phones" EntityType="Self.Phone" />
+          <EntitySet Name="StateNames" EntityType="Self.StateName" />
+          <AssociationSet Name="FK_AddressID" Association="Self.FK_AddressID">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="MemberContact" EntitySet="MemberContacts" />
+          </AssociationSet>
+          <AssociationSet Name="Email_ContactTypeID" Association="Self.Email_ContactTypeID">
+            <End Role="ContactType" EntitySet="ContactTypes" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="Phone_ContactTypeID" Association="Self.Phone_ContactTypeID">
+            <End Role="ContactType" EntitySet="ContactTypes" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmailID" Association="Self.FK_EmailID">
+            <End Role="Email" EntitySet="Emails" />
+            <End Role="MemberContact" EntitySet="MemberContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberID" Association="Self.FK_MemberID">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="MemberContact" EntitySet="MemberContacts" />
+          </AssociationSet>
+          <AssociationSet Name="Member_MemberTypeID" Association="Self.Member_MemberTypeID">
+            <End Role="MemberType" EntitySet="MemberTypes" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="MemberGiving_MemberID" Association="Self.MemberGiving_MemberID">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="MemberGiving" EntitySet="MemberGivings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhoneID" Association="Self.FK__PhoneID">
+            <End Role="Phone" EntitySet="Phones" />
+            <End Role="MemberContact" EntitySet="MemberContacts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StateID" Association="Self.FK_StateID">
+            <End Role="StateName" EntitySet="StateNames" />
+            <End Role="MemberContact" EntitySet="MemberContacts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="forchris_ChurchModelStoreContainer" CdmEntityContainer="forchris_ChurchEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="Address1" ColumnName="Address" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactTypes">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.ContactType">
+              <MappingFragment StoreEntitySet="ContactType">
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MemberTypeID" ColumnName="MemberTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberContacts">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.MemberContact">
+              <MappingFragment StoreEntitySet="MemberContact">
+                <ScalarProperty Name="MemberContactID" ColumnName="MemberContactID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="PhoneID" ColumnName="PhoneID" />
+                <ScalarProperty Name="AddressID" ColumnName="AddressID" />
+                <ScalarProperty Name="StateNameID" ColumnName="StateNameID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberGivings">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.MemberGiving">
+              <MappingFragment StoreEntitySet="MemberGiving">
+                <ScalarProperty Name="MemberGivingID" ColumnName="MemberGivingID" />
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="Tithes" ColumnName="Tithes" />
+                <ScalarProperty Name="Offering" ColumnName="Offering" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberTypes">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.MemberType">
+              <MappingFragment StoreEntitySet="MemberType">
+                <ScalarProperty Name="MemberTypeID" ColumnName="MemberTypeID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phones">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.Phone">
+              <MappingFragment StoreEntitySet="Phone">
+                <ScalarProperty Name="PhoneID" ColumnName="PhoneID" />
+                <ScalarProperty Name="AreaCode" ColumnName="AreaCode" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="ContactTypeID" ColumnName="ContactTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StateNames">
+            <EntityTypeMapping TypeName="forchris_ChurchModel.StateName">
+              <MappingFragment StoreEntitySet="StateName">
+                <ScalarProperty Name="StateNameID" ColumnName="StateNameID" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="StateAbbreviation" ColumnName="StateAbbreviation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

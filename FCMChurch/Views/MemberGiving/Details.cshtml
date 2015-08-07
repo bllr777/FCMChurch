@@ -1,0 +1,50 @@
+﻿@model FCMChurch.Models.MemberGiving
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MemberGiving</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tithes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tithes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Offering)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Offering)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FirstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MemberGivingID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

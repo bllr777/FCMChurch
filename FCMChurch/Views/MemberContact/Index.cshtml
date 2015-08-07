@@ -1,0 +1,68 @@
+﻿@model IEnumerable<FCMChurch.Models.MemberContact>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Member Contacts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address.Address1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StateName.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email.EmailAddress)
+        </th>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.Phone.AreaCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone.Number)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address.Address1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StateName.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email.EmailAddress)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone.AreaCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone.Number)
+        </td>
+   
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MemberContactID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MemberContactID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MemberContactID })
+        </td>
+    </tr>
+}
+
+</table>
+   

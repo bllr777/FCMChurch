@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="488a7cb9166b44cbab063f31c6f53253" Name="Diagram1">
+        <EntityTypeShape EntityType="forchris_ChurchModel.Address" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.ContactType" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.Email" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.Member" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.MemberContact" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.MemberGiving" Width="1.5" PointX="5.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.MemberType" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.Phone" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="forchris_ChurchModel.StateName" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <AssociationConnector Association="forchris_ChurchModel.FK_AddressID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.Email_ContactTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.Phone_ContactTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.FK_EmailID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.FK_MemberID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.Member_MemberTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.MemberGiving_MemberID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.FK__PhoneID" ManuallyRouted="false" />
+        <AssociationConnector Association="forchris_ChurchModel.FK_StateID" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

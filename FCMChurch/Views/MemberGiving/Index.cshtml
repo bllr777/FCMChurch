@@ -1,0 +1,64 @@
+﻿@model IEnumerable<FCMChurch.Models.MemberGiving>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Member.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tithes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Offering)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Member.FirstName)
+        </td>
+        <td id="t">
+            @Html.DisplayFor(modelItem => item.Tithes)
+        </td>
+        <td id="o">
+            @Html.DisplayFor(modelItem => item.Offering)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+   
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MemberGivingID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MemberGivingID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MemberGivingID })
+        </td>
+    </tr>
+}
+<tr>
+    <td>
+        <h1>Total</h1>
+    </td>
+    <td class="Total"></td>
+</tr>
+</table>
+
+<script>
+
+</script>
+

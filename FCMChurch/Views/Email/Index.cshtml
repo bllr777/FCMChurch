@@ -1,0 +1,39 @@
+﻿@model IEnumerable<FCMChurch.Models.Email>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactType.Type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactType.Type)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EmailID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EmailID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EmailID })
+        </td>
+    </tr>
+}
+
+</table>
